@@ -8,7 +8,7 @@ pub mod states;
 
 use instructions::*;
 
-declare_id!("Gig5DYbHVv1xtLUmEA6AR5syACPCkLw1PddXwcg6Sen8");
+declare_id!("CG47o1ffDuMYSBxUTmWghV3TPfY9iq6EkX64vL6aPEcn");
 
 #[program]
 pub mod payroll_program {
