@@ -76,7 +76,7 @@ export default function AboutPage() {
                 </div>
             </section>
 
-            {/* OmniPay Mission */}
+                {/* OmniPay Mission */}
             <section className="py-20 px-6">
                 <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
                     <div className="order-2 md:order-1 space-y-8">

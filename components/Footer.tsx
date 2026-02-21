@@ -123,7 +123,7 @@ const Footer = () => {
                             <span>© {new Date().getFullYear()} OmniPay. All rights reserved.</span>
                             <span className="hidden sm:inline">•</span>
                             <span className="hidden sm:flex items-center gap-1">
-                                Made with <Heart className="w-3 h-3 text-red-500 animate-pulse" /> by DappMentors
+                                Made with <Heart className="w-3 h-3 text-red-500 animate-pulse" /> by Omni
                             </span>
                         </div>
                         <div className="flex gap-4 sm:gap-6">

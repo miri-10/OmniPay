@@ -86,7 +86,7 @@ export default function Page() {
                             Modern Payroll
                         </span>
                     </h1>
-                    <p className="text-xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                        <p className="text-xl text-slate-400 mb-12 max-w-3xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '0.2s' }}>
                         Explore how OmniPay combines AI intelligence, Solana speed, and unbreakable security to transform your payroll process.
                     </p>
                 </div>

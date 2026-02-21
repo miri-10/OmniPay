@@ -176,8 +176,8 @@ const Page: React.FC = () => {
                                 Installation Steps
                             </h3>
                             <CodeBlock code={`# Clone the repository
-                            git clone https://github.com/daltonic/OmniPay.git
-                            cd OmniPay
+                            git clone https://github.com/daltonic/omniPay.git
+                            cd omniPay
 
                             # Install dependencies
                             npm install
@@ -405,7 +405,7 @@ const Page: React.FC = () => {
                         Project Structure
                     </h3>
                     <CodeBlock code={`
-                    OmniPay/
+                    omniPay/
                         ├── anchor/                    # Solana smart contracts
                         │   ├── programs/payroll_program/
                         │   │   └── src/

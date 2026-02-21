@@ -5,16 +5,16 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-payroll_program = "CG47o1ffDuMYSBxUTmWghV3TPfY9iq6EkX64vL6aPEcn"
+payroll_program = "9S9gyDjqGdBUH8nPYpJscXrJecUgVN4SfXmuwh285hLx"
 
 [programs.localnet]
-payroll_program = "CG47o1ffDuMYSBxUTmWghV3TPfY9iq6EkX64vL6aPEcn"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "devnet"
+# cluster = "Localnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
