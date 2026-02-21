@@ -5,6 +5,28 @@ import { Play, Zap, Shuffle, Trash2, Copy, Check } from 'lucide-react';
 import Header from '@/components/Header';
 import ParticleBackground from '@/components/ParticleBackground';
 import Footer from '@/components/Footer';
+import { useWallet } from '@solana/wallet-adapter-react'
+
+import {
+    getProvider,
+    getProviderReadonly,
+    createOrganization,
+    addWorker,
+    fundTreasury,
+    processPayroll,
+    withdrawFromTreasury,
+    fetchUserOrganizations,
+    fetchAllOrganizations,
+    fetchOrganizationDetails,
+    fetchOrganizationWorkers,
+    fetchWorkerDetails,
+    fetchWorkersByWallet,
+    checkPayrollDue,
+    getOrganizationBalance,
+    calculateTotalPayrollCost,
+    deriveOrganizationPDA,
+    deriveWorkerPDA,
+} from '@/services/blockchain';
 
 interface TestData {
     orgName: string;
@@ -24,6 +46,9 @@ interface Log {
 }
 
 const Page: React.FC = () => {
+
+    const { publicKey, signTransaction } = useWallet(); // Assuming useWallet is available for wallet connection
+
     const [logs, setLogs] = useState<Log[]>([]);
     const [loading, setLoading] = useState<string | null>(null);
     const [copied, setCopied] = useState<string | null>(null);
@@ -78,15 +103,27 @@ const Page: React.FC = () => {
     };
 
     const testCreateOrganization = async () => {
+
+        if (!publicKey || !signTransaction) {
+            addLog('Please connect your wallet to first', 'info');
+            return;
+        }
+
         setLoading('createOrg');
         try {
-            addLog(`Creating organization: ${testData.orgName}`, 'info');
-            // Dummy PDA generation
-            const dummyOrgPda = `dummyOrgPda_${Math.random().toString(36).substring(7)}`;
-            setTestData(prev => ({ ...prev, selectedOrgPda: dummyOrgPda }));
 
-            addLog(`Organization created! TX: dummyTxSignature`, 'success');
-            addLog(`Org PDA: ${dummyOrgPda}`, 'info');
+            const program = getProvider(publicKey, signTransaction);
+            if (!program) throw new Error('Failed to get program');
+
+            addLog(`Creating organization: ${testData.orgName}`, 'info');
+
+            const tx = await createOrganization(program, publicKey, testData.orgName);
+            
+            const [orgPda] = deriveOrganizationPDA(publicKey, testData.orgName);
+            setTestData(prev => ({ ...prev, selectedOrgPda: orgPda.toBase58() }));
+
+            addLog(`Organization created! TX: ${tx}`, 'success');
+            addLog(`Org PDA: ${orgPda.toBase58()}`, 'info');
         } catch (error) {
             handleError(error, 'Create Organization');
         } finally {
