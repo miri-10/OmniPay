@@ -34,27 +34,7 @@ const Footer = () => {
                         </p>
                         <div className="flex gap-3 sm:gap-4">
                             <a
-                                href="https://youtube.com/@dappmentors?sub_confirmation=1"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group relative w-9 h-9 sm:w-10 sm:h-10 bg-slate-800/50 rounded-lg flex items-center justify-center hover:bg-linear-to-r hover:from-[#DC1FFF] hover:to-[#00FFA3] transition-all duration-300 transform hover:scale-110 overflow-hidden"
-                            >
-                                <div className="absolute inset-0 bg-linear-to-r from-[#DC1FFF] to-[#00FFA3] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                <Youtube className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 group-hover:text-black relative z-10 transition-colors duration-300" />
-                                <div className="absolute inset-0 bg-linear-to-r from-[#DC1FFF] to-[#00FFA3] blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
-                            </a>
-                            <a
-                                href="https://linkedin.com/company/dappmentors"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group relative w-9 h-9 sm:w-10 sm:h-10 bg-slate-800/50 rounded-lg flex items-center justify-center hover:bg-linear-to-r hover:from-[#DC1FFF] hover:to-[#00FFA3] transition-all duration-300 transform hover:scale-110 overflow-hidden"
-                            >
-                                <div className="absolute inset-0 bg-linear-to-r from-[#DC1FFF] to-[#00FFA3] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 group-hover:text-black relative z-10 transition-colors duration-300" />
-                                <div className="absolute inset-0 bg-linear-to-r from-[#DC1FFF] to-[#00FFA3] blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300" />
-                            </a>
-                            <a
-                                href="https://twitter.com/iDaltonic"
+                                href="https://x.com/PayOmni71599"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="group relative w-9 h-9 sm:w-10 sm:h-10 bg-slate-800/50 rounded-lg flex items-center justify-center hover:bg-linear-to-r hover:from-[#DC1FFF] hover:to-[#00FFA3] transition-all duration-300 transform hover:scale-110 overflow-hidden"

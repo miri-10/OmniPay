@@ -275,7 +275,7 @@ const Dashboard = () => {
 
   // Initialize messages with API key requirement check
   useEffect(() => {
-    const hasEnvKey = !!process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+    const hasEnvKey = !!process.env.NEXT_PUBLIC_GROQ_API_KEY;
     setApiKeySet(hasEnvKey);
 
     if (hasEnvKey) {
@@ -292,7 +292,7 @@ const Dashboard = () => {
         {
           id: 'initial',
           role: 'bot' as const,
-          content: 'Welcome! To get started, I need your OpenAI API key. Please enter it below to enable chat functionality.',
+          content: 'Welcome! To get started, I need your Groq API key. Please enter it below to enable chat functionality.',
           timestamp: new Date(),
         },
       ]);
@@ -369,7 +369,7 @@ const Dashboard = () => {
   };
 
   const getActiveApiKey = () => {
-    return userApiKey || process.env.NEXT_PUBLIC_OPENAI_API_KEY || '';
+    return userApiKey || process.env.NEXT_PUBLIC_GROQ_API_KEY || '';
   };
 
   const generateResponse = async (userInput: string) => {
@@ -451,14 +451,14 @@ const Dashboard = () => {
       while (iterations < maxIterations) {
         iterations++;
 
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${activeApiKey}`,
           },
           body: JSON.stringify({
-            model: 'gpt-4o',
+            model: 'llama-3.1-70b-versatile',
             messages: conversationMessages,
             tools,
             tool_choice: 'auto',

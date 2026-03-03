@@ -20,19 +20,19 @@ export default function AboutPage() {
                 <div className="max-w-7xl mx-auto text-center">
                     <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8">
                         <Sparkles className="w-4 h-4" style={{ color: colors.purple }} />
-                        <span className="text-sm font-medium">About OmniPay & DappMentors</span>
+                        <span className="text-sm font-medium">About OmniPay</span>
                     </div>
 
                     <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
                         <span style={{ background: `linear-gradient(to right, ${colors.purple}, ${colors.cyan}, ${colors.green})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-                            Empowering Web3
+                            Revolutionizing Payroll
                         </span>
                         <br />
-                        <span className="text-white">Through Innovation & Education</span>
+                        <span className="text-white">with AI & Blockchain</span>
                     </h1>
 
                     <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-                        Built by Darlington Gospel, founder of DappMentors—a trusted Blockchain & AI Academy with 9+ years of experience. OmniPay represents a commitment to revolutionizing payroll on Solana while empowering the next generation of Web3 developers.
+                        A student-led project at the intersection of AI and Blockchain. OmniPay combines the speed of Solana with AI-powered natural language processing to revolutionize how organizations manage payroll on-chain.
                     </p>
                 </div>
             </section>
@@ -40,17 +40,17 @@ export default function AboutPage() {
             {/* Who I Am */}
             <section className="py-20 px-6 bg-linear-to-b from-black to-zinc-950">
                 <div className="max-w-7xl mx-auto">
-                    <h2 className="text-4xl font-bold text-center mb-16">Who I Am</h2>
+                    <h2 className="text-4xl font-bold text-center mb-16">Who We Are</h2>
                     <div className="grid md:grid-cols-2 gap-16 items-center">
                         <div className="space-y-6">
                             <p className="text-lg text-gray-300 leading-relaxed">
-                                I&apos;m Darlington Gospel, a seasoned blockchain developer, AI engineer, and educator with a vision: democratizing Web3 and making decentralized technologies accessible to everyone.
+                                We are a team of student innovators building at the frontier of AI and Blockchain technology.
                             </p>
                             <p className="text-lg text-gray-300 leading-relaxed">
-                                With over 9 years in blockchain development, smart contract engineering, and technical education, I&apos;ve mentored hundreds through DappMentors and delivered innovative solutions across multiple ecosystems.
+                                As students passionate about decentralized systems and artificial intelligence, we saw an opportunity to combine Solana's lightning-fast blockchain with cutting-edge AI to create something truly revolutionary in the Web3 space.
                             </p>
                             <ul className="space-y-4 pt-6">
-                                {["Smart Contract Development & Auditing", "Full-Stack dApp Development", "Blockchain & AI Education", "Web3 Innovation & Strategy"].map((item, i) => (
+                                {["AI-Powered Natural Language Interface", "Secure Blockchain Transactions", "Next-Gen Web3 Solutions", "Innovation Through Education"].map((item, i) => (
                                     <li key={i} className="flex items-center gap-4">
                                         <div className="w-2 h-2 rounded-full" style={{ backgroundColor: i % 2 === 0 ? colors.cyan : colors.green }} />
                                         <span className="text-gray-300">{item}</span>
@@ -61,10 +61,10 @@ export default function AboutPage() {
 
                         <div className="grid grid-cols-2 gap-6">
                             {[
-                                { value: "9+", label: "Years Experience", color: colors.purple },
-                                { value: "500+", label: "Developers Trained", color: colors.cyan },
-                                { value: "50+", label: "Projects Completed", color: colors.green },
-                                { value: "5K+", label: "Community Members", color: colors.purple },
+                                { value: "AI + Blockchain", label: "Core Focus", color: colors.purple },
+                                { value: "Student", label: "Led Project", color: colors.cyan },
+                                { value: "Natural", label: "Language First", color: colors.green },
+                                { value: "On-Chain", label: "Security", color: colors.purple },
                             ].map((stat) => (
                                 <div key={stat.label} className="p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md text-center hover:border-white/20 transition-all">
                                     <div className="text-5xl font-bold mb-2" style={{ color: stat.color }}>{stat.value}</div>
@@ -118,7 +118,7 @@ export default function AboutPage() {
             {/* Offerings */}
             <section className="py-20 px-6 bg-linear-to-b from-black to-zinc-950">
                 <div className="max-w-7xl mx-auto">
-                    <h2 className="text-4xl font-bold text-center mb-16">My Comprehensive Offerings</h2>
+                    <h2 className="text-4xl font-bold text-center mb-16">What We Offer</h2>
                     <div className="grid md:grid-cols-4 gap-8">
                         {[
                             { icon: BookOpen, title: "Education", color: colors.purple },
@@ -146,7 +146,7 @@ export default function AboutPage() {
             {/* Core Values */}
             <section className="py-20 px-6">
                 <div className="max-w-7xl mx-auto">
-                    <h2 className="text-4xl font-bold text-center mb-16">My Core Values</h2>
+                    <h2 className="text-4xl font-bold text-center mb-16">Our Core Values</h2>
                     <div className="grid md:grid-cols-3 gap-8">
                         {[
                             { icon: Heart, title: "User-First", color: colors.purple },
@@ -172,16 +172,16 @@ export default function AboutPage() {
             {/* CTA */}
             <section className="py-20 px-6 bg-linear-to-b from-black to-zinc-950">
                 <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Join the Web3 Revolution?</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Join the AI & Blockchain Revolution?</h2>
                     <p className="text-xl text-gray-400 mb-10">
-                        Whether you want to revolutionize payroll with OmniPay or level up with DappMentors — I&apos;m here to help.
+                        Experience the future of payroll management with OmniPay — where AI meets blockchain.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-6 justify-center">
                         <button className="px-10 py-4 rounded-xl font-bold text-black transition-all hover:scale-105" style={{ background: `linear-gradient(to right, ${colors.purple}, ${colors.cyan}, ${colors.green})` }}>
-                            Start with OmniPay
+                            Get Started
                         </button>
                         <button className="px-10 py-4 rounded-xl font-bold border-2 transition-all hover:scale-105" style={{ borderColor: colors.cyan, color: colors.cyan }}>
-                            Learn with DappMentors
+                            Learn More
                         </button>
                     </div>
                 </div>

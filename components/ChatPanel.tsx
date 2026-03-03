@@ -149,13 +149,13 @@ const ChatPanel: React.FC<ChatPanelProps> = ({
                         style={{ animationDelay: `${index * 0.05}s` }}
                     >
                         <div className={`max-w-[85%] sm:max-w-[70%] group/message ${msg.role === 'user'
-                                ? 'bg-linear-to-r from-[#DC1FFF] to-[#00FFA3]'
-                                : 'bg-slate-800/50 backdrop-blur-sm border border-slate-700/50'
+                            ? 'bg-linear-to-r from-[#DC1FFF] to-[#00FFA3]'
+                            : 'bg-slate-800/50 backdrop-blur-sm border border-slate-700/50'
                             } rounded-2xl p-3 sm:p-4 shadow-lg hover:shadow-xl transition-all duration-300 relative`}>
                             {/* Message icon */}
                             <div className={`absolute ${msg.role === 'user' ? '-right-2 -top-2' : '-left-2 -top-2'} w-8 h-8 rounded-full ${msg.role === 'user'
-                                    ? 'bg-linear-to-br from-[#00FFA3] to-[#DC1FFF]'
-                                    : 'bg-linear-to-br from-[#DC1FFF] to-[#00FFA3]'
+                                ? 'bg-linear-to-br from-[#00FFA3] to-[#DC1FFF]'
+                                : 'bg-linear-to-br from-[#DC1FFF] to-[#00FFA3]'
                                 } flex items-center justify-center shadow-lg opacity-0 group-hover/message:opacity-100 transition-opacity duration-300`}>
                                 {msg.role === 'user' ? (
                                     <User className="w-4 h-4 text-black" />
@@ -199,7 +199,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({
                                     onKeyPress={handleApiKeyKeyPress}
                                     onFocus={() => setIsFocused(true)}
                                     onBlur={() => setIsFocused(false)}
-                                    placeholder="Enter your OpenAI API key (sk-...)"
+                                    placeholder="Enter your Groq API key (gsk_...)"
                                     className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-slate-800/50 border border-slate-700/50 rounded-xl text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-[#DC1FFF] focus:bg-slate-800/70 transition-all duration-300 disabled:opacity-50 backdrop-blur-sm"
                                 />
                                 <div className="absolute inset-0 rounded-xl bg-linear-to-r from-[#DC1FFF]/20 to-[#00FFA3]/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-300 -z-10" />
