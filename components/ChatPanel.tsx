@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState } from 'react';
-import { Send, Bot, User } from 'lucide-react';
+import { Send, Bot, User, Copy, Check } from 'lucide-react';
 import { PublicKey } from '@solana/web3.js';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import type { Components } from 'react-markdown';
 
 type Message = {
@@ -78,24 +79,60 @@ const ChatPanel: React.FC<ChatPanelProps> = ({
         }
     };
 
+    const [copiedIndex, setCopiedIndex] = useState<string | null>(null);
+
+    const handleCopy = (text: string, index: string) => {
+        navigator.clipboard.writeText(text);
+        setCopiedIndex(index);
+        setTimeout(() => setCopiedIndex(null), 2000);
+    };
+
     const markdownComponents: Components = {
-        p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-        h1: ({ children }) => <h1 className="text-lg font-bold mb-2 mt-3 first:mt-0 text-[#DC1FFF]">{children}</h1>,
-        h2: ({ children }) => <h2 className="text-base font-bold mb-2 mt-3 first:mt-0 text-[#00FFA3]">{children}</h2>,
-        h3: ({ children }) => <h3 className="text-sm font-bold mb-1 mt-2 first:mt-0 text-[#03E1FF]">{children}</h3>,
-        ul: ({ children }) => <ul className="list-disc list-inside mb-2 space-y-1">{children}</ul>,
-        ol: ({ children }) => <ol className="list-decimal list-inside mb-2 space-y-1">{children}</ol>,
-        li: ({ children }) => <li className="ml-2">{children}</li>,
-        code: ({ inline, children, className }: { inline?: boolean; children?: React.ReactNode; className?: string }) =>
-            inline ? (
-                <code className="bg-slate-700/50 px-1.5 py-0.5 rounded text-[#00FFA3] font-mono text-xs break-all">
+        p: ({ children }) => <p className="mb-3 last:mb-0 leading-relaxed">{children}</p>,
+        h1: ({ children }) => <h1 className="text-lg font-bold mb-3 mt-4 first:mt-0 text-[#DC1FFF]-b border-[# borderDC1FFF]/30 pb-2">{children}</h1>,
+        h2: ({ children }) => <h2 className="text-base font-bold mb-3 mt-4 first:mt-0 text-[#00FFA3] border-b border-[#00FFA3]/30 pb-2">{children}</h2>,
+        h3: ({ children }) => <h3 className="text-sm font-bold mb-2 mt-3 first:mt-0 text-[#03E1FF]">{children}</h3>,
+        ul: ({ children }) => <ul className="list-disc list-inside mb-3 space-y-2 ml-2">{children}</ul>,
+        ol: ({ children }) => <ol className="list-decimal list-inside mb-3 space-y-2 ml-2">{children}</ol>,
+        li: ({ children }) => <li className="ml-1">{children}</li>,
+        table: ({ children }) => (
+            <div className="overflow-x-auto my-4 rounded-lg border border-slate-700/50">
+                <table className="w-full text-xs sm:text-sm border-collapse">
                     {children}
-                </code>
-            ) : (
-                <code className={`block bg-slate-700/50 p-3 rounded-md my-3 font-mono text-xs overflow-x-auto whitespace-pre break-all border border-slate-600/30 ${className ?? ''}`}>
-                    {children}
-                </code>
-            ),
+                </table>
+            </div>
+        ),
+        thead: ({ children }) => <thead className="bg-gradient-to-r from-[#DC1FFF]/20 via-[#00FFA3]/20 to-[#03E1FF]/20">{children}</thead>,
+        th: ({ children }) => <th className="px-3 py-2 text-left font-bold text-white border-b border-slate-700/50">{children}</th>,
+        td: ({ children }) => <td className="px-3 py-2 border-b border-slate-700/30 text-slate-200">{children}</td>,
+        tr: ({ children }) => <tr className="hover:bg-slate-700/30 transition-colors duration-200">{children}</tr>,
+        code: ({ inline, children, className }: { inline?: boolean; children?: React.ReactNode; className?: string }) => {
+            const codeText = String(children).replace(/\n$/, '');
+            const codeIndex = `code-${codeText.slice(0, 20)}`;
+            
+            if (inline) {
+                return (
+                    <code className="bg-slate-700/50 px-1.5 py-0.5 rounded text-[#00FFA3] font-mono text-xs break-all">
+                        {children}
+                    </code>
+                );
+            }
+            
+            return (
+                <div className="relative group my-4">
+                    <button
+                        onClick={() => handleCopy(codeText, codeIndex)}
+                        className="absolute top-2 right-2 p-1.5 bg-slate-700/70 hover:bg-[#DC1FFF] hover:text-black rounded-md opacity-0 group-hover:opacity-100 transition-all duration-200 z-10"
+                        title="Copy code"
+                    >
+                        {copiedIndex === codeIndex ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                    </button>
+                    <code className={`block bg-slate-800/80 p-4 rounded-lg my-3 font-mono text-xs overflow-x-auto whitespace-pre break-all border border-slate-600/30 text-slate-200 ${className ?? ''}`}>
+                        {children}
+                    </code>
+                </div>
+            );
+        },
         a: ({ href, children }) => (
             <a href={href} target="_blank" rel="noopener noreferrer" className="text-[#00FFA3] hover:text-[#DC1FFF] underline break-all transition-colors duration-300">
                 {children}
@@ -168,7 +205,10 @@ const ChatPanel: React.FC<ChatPanelProps> = ({
                                 {msg.role === 'user' ? (
                                     <p className="whitespace-pre-wrap break-all font-medium">{msg.content}</p>
                                 ) : (
-                                    <ReactMarkdown components={markdownComponents}>
+                                    <ReactMarkdown 
+                                        remarkPlugins={[remarkGfm]}
+                                        components={markdownComponents}
+                                    >
                                         {msg.content}
                                     </ReactMarkdown>
                                 )}

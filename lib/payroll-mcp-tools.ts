@@ -49,7 +49,7 @@ export const blockchainMcpTools = {
   create_organization: tool({
     description:
       'Create a new organization on the blockchain. Requires wallet connection.',
-    inputSchema: z.object({
+    parameters: z.object({
       name: z.string().describe('Name of the organization to create'),
     }),
     execute: async ({ name }) => {
@@ -94,7 +94,7 @@ export const blockchainMcpTools = {
 
   fetch_user_organizations: tool({
     description: 'Fetch all organizations created by the connected wallet',
-    inputSchema: z.object({}),
+    parameters: z.object({}),
     execute: async () => {
       if (!walletContext.publicKey) {
         return { error: 'Wallet not connected' }
@@ -124,7 +124,7 @@ export const blockchainMcpTools = {
 
   fetch_all_organizations: tool({
     description: 'Fetch all organizations on the blockchain',
-    inputSchema: z.object({}),
+    parameters: z.object({}),
     execute: async () => {
       try {
         const program = getProviderReadonly()
@@ -147,7 +147,7 @@ export const blockchainMcpTools = {
 
   fetch_organization_details: tool({
     description: 'Fetch detailed information about a specific organization',
-    inputSchema: z.object({
+    parameters: z.object({
       orgPda: z.string().describe('Public key (address) of the organization'),
     }),
     execute: async ({ orgPda }) => {
@@ -175,7 +175,7 @@ export const blockchainMcpTools = {
 
   add_worker: tool({
     description: 'Add a worker to an organization with a specified salary',
-    inputSchema: z.object({
+    parameters: z.object({
       orgPda: z.string().describe('Organization public key'),
       workerPublicKey: z.string().describe('Worker wallet public key'),
       salaryInSol: z.number().positive().describe('Monthly salary in SOL'),
@@ -223,7 +223,7 @@ export const blockchainMcpTools = {
 
   fetch_organization_workers: tool({
     description: 'Fetch all workers for a specific organization',
-    inputSchema: z.object({
+    parameters: z.object({
       orgPda: z.string().describe('Organization public key'),
     }),
     execute: async ({ orgPda }) => {
@@ -248,7 +248,7 @@ export const blockchainMcpTools = {
 
   fetch_worker_details: tool({
     description: 'Fetch detailed information about a specific worker',
-    inputSchema: z.object({
+    parameters: z.object({
       workerPda: z.string().describe('Worker account public key'),
     }),
     execute: async ({ workerPda }) => {
@@ -272,7 +272,7 @@ export const blockchainMcpTools = {
 
   fetch_workers_by_wallet: tool({
     description: 'Fetch all worker records for a specific wallet address',
-    inputSchema: z.object({
+    parameters: z.object({
       walletPublicKey: z
         .string()
         .optional()
@@ -312,7 +312,7 @@ export const blockchainMcpTools = {
 
   fund_treasury: tool({
     description: 'Add funds to an organization treasury',
-    inputSchema: z.object({
+    parameters: z.object({
       orgPda: z.string().describe('Organization public key'),
       amountInSol: z.number().positive().describe('Amount to add in SOL'),
     }),
@@ -354,7 +354,7 @@ export const blockchainMcpTools = {
 
   withdraw_from_treasury: tool({
     description: 'Withdraw funds from an organization treasury',
-    inputSchema: z.object({
+    parameters: z.object({
       orgPda: z.string().describe('Organization public key'),
       amountInSol: z.number().positive().describe('Amount to withdraw in SOL'),
     }),
@@ -396,7 +396,7 @@ export const blockchainMcpTools = {
 
   get_organization_balance: tool({
     description: 'Get the current treasury balance of an organization',
-    inputSchema: z.object({
+    parameters: z.object({
       orgPda: z.string().describe('Organization public key'),
     }),
     execute: async ({ orgPda }) => {
@@ -425,7 +425,7 @@ export const blockchainMcpTools = {
 
   process_payroll: tool({
     description: 'Process payroll for all workers in an organization',
-    inputSchema: z.object({
+    parameters: z.object({
       orgPda: z.string().describe('Organization public key'),
       cycleTimestamp: z
         .number()
@@ -470,7 +470,7 @@ export const blockchainMcpTools = {
 
   check_payroll_due: tool({
     description: 'Check if any workers are due for payment',
-    inputSchema: z.object({
+    parameters: z.object({
       orgPda: z.string().describe('Organization public key'),
       cycleType: z
         .enum(['weekly', 'bi-weekly', 'monthly'])
@@ -503,7 +503,7 @@ export const blockchainMcpTools = {
 
   calculate_total_payroll_cost: tool({
     description: 'Calculate the total monthly payroll cost for an organization',
-    inputSchema: z.object({
+    parameters: z.object({
       orgPda: z.string().describe('Organization public key'),
     }),
     execute: async ({ orgPda }) => {
@@ -528,7 +528,7 @@ export const blockchainMcpTools = {
 
   calculate_next_payroll_date: tool({
     description: 'Calculate the next payroll date based on last payment',
-    inputSchema: z.object({
+    parameters: z.object({
       lastPaidCycle: z
         .number()
         .describe('Last payment timestamp in milliseconds'),
@@ -563,7 +563,7 @@ export const blockchainMcpTools = {
 
   derive_organization_pda: tool({
     description: 'Derive the Program Derived Address (PDA) for an organization',
-    inputSchema: z.object({
+    parameters: z.object({
       authorityPublicKey: z
         .string()
         .describe('Authority wallet public key (organization owner)'),
@@ -591,7 +591,7 @@ export const blockchainMcpTools = {
 
   derive_worker_pda: tool({
     description: 'Derive the Program Derived Address (PDA) for a worker',
-    inputSchema: z.object({
+    parameters: z.object({
       orgPda: z.string().describe('Organization public key'),
       workerPublicKey: z.string().describe('Worker wallet public key'),
     }),
@@ -618,7 +618,7 @@ export const blockchainMcpTools = {
 
   get_connected_wallet: tool({
     description: 'Get information about the currently connected wallet',
-    inputSchema: z.object({}),
+    parameters: z.object({}),
     execute: async () => {
       if (!walletContext.publicKey) {
         return {

@@ -10,131 +10,17 @@ import { Message, PayrollSummary, WorkerSummary } from '@/utils/interface';
 import { blockchainMcpTools, setWalletContext } from '@/lib/payroll-mcp-tools';
 import Footer from './Footer';
 import { getCluster } from '@/utils/helper';
+import { generateText } from 'ai';
+import { createGroq } from '@ai-sdk/groq';
+import { DEFAULT_MODEL } from '@/lib/open-source-ai-provider';
 
 type ChatMessage = Message & {
   id: string;
 };
 
-type OpenAIMessage = {
-  role: 'system' | 'user' | 'assistant' | 'tool';
-  content: string;
-  tool_call_id?: string;
-  tool_calls?: ToolCall[];
-};
-
-type ToolCall = {
-  id: string;
-  type: 'function';
-  function: {
-    name: string;
-    arguments: string;
-  };
-};
-
-type OpenAIResponse = {
-  choices: Array<{
-    message: {
-      role: 'assistant';
-      content?: string | null;
-      tool_calls?: ToolCall[];
-    };
-    finish_reason: string;
-  }>;
-};
-
-interface JsonSchemaProperty {
-  type: 'string' | 'number' | 'boolean' | 'object' | 'array';
-  description?: string;
-  enum?: string[];
-}
-
-interface ZodDef {
-  typeName: string;
-  shape?: (() => Record<string, unknown>) | Record<string, unknown>;
-  description?: string;
-  values?: string[] | Set<string>;
-  innerType?: { _def: ZodDef };
-}
-
-interface ZodType {
-  _def: ZodDef;
-  [key: string]: unknown;
-}
-
-const getOpenAITools = () => {
-  return Object.entries(blockchainMcpTools).map(([name, tool]) => {
-    const properties: Record<string, JsonSchemaProperty> = {};
-    const required: string[] = [];
-
-    try {
-      const schema = tool.inputSchema;
-
-      if (schema && typeof schema === 'object' && '_def' in schema) {
-        const schemaObj = schema as unknown as ZodType;
-        const def = schemaObj._def;
-
-        if (def.typeName === 'ZodObject' && def.shape) {
-          const shape = typeof def.shape === 'function' ? def.shape() : def.shape;
-
-          Object.entries(shape).forEach(([key, zodType]) => {
-            if (!zodType || typeof zodType !== 'object' || !('_def' in zodType)) {
-              return;
-            }
-
-            const innerDef = (zodType as ZodType)._def;
-            let actualDef = innerDef;
-            let isOptional = false;
-
-            if (innerDef.typeName === 'ZodOptional') {
-              isOptional = true;
-              actualDef = innerDef.innerType?._def || innerDef;
-            }
-
-            let type: JsonSchemaProperty['type'] = 'string';
-            if (actualDef.typeName === 'ZodString') type = 'string';
-            else if (actualDef.typeName === 'ZodNumber') type = 'number';
-            else if (actualDef.typeName === 'ZodBoolean') type = 'boolean';
-            else if (actualDef.typeName === 'ZodObject') type = 'object';
-            else if (actualDef.typeName === 'ZodArray') type = 'array';
-
-            properties[key] = {
-              type,
-              description: actualDef.description || innerDef.description || `${key} parameter`,
-            };
-
-            if (actualDef.typeName === 'ZodEnum' && actualDef.values) {
-              properties[key].enum = Array.isArray(actualDef.values)
-                ? actualDef.values
-                : Array.from(actualDef.values);
-            }
-
-            if (!isOptional) {
-              required.push(key);
-            }
-          });
-        }
-      }
-    } catch (error) {
-      console.error(`Error parsing schema for ${name}:`, error);
-    }
-
-    return {
-      type: 'function' as const,
-      function: {
-        name,
-        description: tool.description || 'No description provided.',
-        parameters: {
-          type: 'object',
-          properties,
-          required,
-        },
-      },
-    };
-  });
-};
-
-const formatToolResponse = (toolName: string, toolArgs: Record<string, unknown>, toolOutput: unknown): string => {
+const formatToolResponse = (toolName: string, toolArgs: Record<string, unknown>, toolOutput: unknown, cluster: string): string => {
   const lines: string[] = [];
+  const clusterParam = `cluster=${cluster}`;
 
   let outputData: Record<string, unknown> = {};
   if (typeof toolOutput === 'string') {
@@ -177,65 +63,82 @@ const formatToolResponse = (toolName: string, toolArgs: Record<string, unknown>,
   }
 
   if ('signature' in outputData && outputData.signature) {
-    lines.push(`🔗 **Transaction ID**: \`${outputData.signature}\``);
+    const sig = String(outputData.signature);
+    lines.push(`🔗 **Transaction ID**: [${sig.slice(0, 8)}...${sig.slice(-8)}](https://explorer.solana.com/tx/${sig}?${clusterParam})`);
+    lines.push('');
   }
 
   if ('workerPda' in outputData && outputData.workerPda) {
-    lines.push(`👤 **Worker Address**: \`${outputData.workerPda}\``);
+    const workerAddr = String(outputData.workerPda);
+    lines.push(`👤 **Worker Address**: [${workerAddr.slice(0, 8)}...${workerAddr.slice(-8)}](https://explorer.solana.com/address/${workerAddr}?${clusterParam})`);
+    lines.push('');
   }
 
   if ('orgPda' in outputData && outputData.orgPda) {
-    lines.push(`🏢 **Organization Address**: \`${outputData.orgPda}\``);
-  }
-
-  if ('signature' in outputData || 'workerPda' in outputData || 'orgPda' in outputData) {
+    const orgAddr = String(outputData.orgPda);
+    lines.push(`🏢 **Organization Address**: [${orgAddr.slice(0, 8)}...${orgAddr.slice(-8)}](https://explorer.solana.com/address/${orgAddr}?${clusterParam})`);
     lines.push('');
   }
 
   if ('organizations' in outputData && Array.isArray(outputData.organizations)) {
     lines.push('### 📋 Your Organizations');
     lines.push('');
+    lines.push('| # | Name | Treasury | Workers | Address |');
+    lines.push('|---|------|----------|---------|---------|');
     outputData.organizations.forEach((org: unknown, index: number) => {
       const orgData = org as Record<string, unknown>;
-      lines.push(`**${index + 1}. ${orgData.name || 'Unknown'}**`);
-      lines.push(`- Treasury: **${Number(orgData.treasury || 0).toFixed(2)} SOL**`);
-      lines.push(`- Workers: ${orgData.workersCount || 0}`);
-      if (orgData.publicKey) {
-        lines.push(`- Address: \`${orgData.publicKey}\``);
-      }
-      lines.push('');
+      const name = orgData.name || 'Unknown';
+      const treasury = Number(orgData.treasury || 0).toFixed(2);
+      const workers = orgData.workersCount || 0;
+      const pubKey = orgData.publicKey as string;
+      const shortKey = pubKey ? `${String(pubKey).slice(0, 6)}...${String(pubKey).slice(-4)}` : 'N/A';
+      const link = pubKey ? `[${shortKey}](https://explorer.solana.com/address/${pubKey}?${clusterParam})` : 'N/A';
+      lines.push(`| ${index + 1} | **${name}** | ${treasury} SOL | ${workers} | ${link} |`);
     });
+    lines.push('');
   }
 
   if ('organization' in outputData && typeof outputData.organization === 'object') {
     const org = outputData.organization as Record<string, unknown>;
     lines.push('### 🏢 Organization Details');
     lines.push('');
-    lines.push(`**Name**: ${org.name || 'Unknown'}`);
-    lines.push(`**Treasury Balance**: ${Number(org.treasury || 0).toFixed(2)} SOL`);
-    lines.push(`**Total Workers**: ${org.workersCount || 0}`);
+    lines.push(`| Field | Value |`);
+    lines.push(`|-------|-------|`);
+    lines.push(`| **Name** | ${org.name || 'Unknown'} |`);
+    lines.push(`| **Treasury Balance** | ${Number(org.treasury || 0).toFixed(2)} SOL |`);
+    lines.push(`| **Total Workers** | ${org.workersCount || 0} |`);
 
     if (org.workers && Array.isArray(org.workers) && org.workers.length > 0) {
       lines.push('');
       lines.push('#### 👥 Workers');
       lines.push('');
+      lines.push('| # | Address | Salary | Last Paid |');
+      lines.push('|---|---------|--------|-----------|');
       org.workers.forEach((worker: unknown, index: number) => {
         const w = worker as Record<string, unknown>;
-        lines.push(`**${index + 1}.** \`${w.publicKey || 'N/A'}\``);
-        lines.push(`- Salary: **${Number(w.salary || 0).toFixed(2)} SOL**`);
-        lines.push(`- Last Paid: ${w.lastPaid ? new Date(Number(w.lastPaid) * 1000).toLocaleDateString() : 'Never'}`);
-        lines.push('');
+        const addr = String(w.publicKey || 'N/A');
+        const shortAddr = `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+        const link = w.publicKey ? `[${shortAddr}](https://explorer.solana.com/address/${addr}?${clusterParam})` : 'N/A';
+        const salary = Number(w.salary || 0).toFixed(2);
+        const lastPaid = w.lastPaid ? new Date(Number(w.lastPaid) * 1000).toLocaleDateString() : 'Never';
+        lines.push(`| ${index + 1} | ${link} | ${salary} SOL | ${lastPaid} |`);
       });
+      lines.push('');
     }
   }
 
   if ('results' in outputData && Array.isArray(outputData.results)) {
     lines.push('### 💰 Payroll Processing Results');
     lines.push('');
+    lines.push('| Status | Worker | Message |');
+    lines.push('|--------|--------|---------|');
     outputData.results.forEach((result: unknown) => {
       const r = result as Record<string, unknown>;
       const status = r.success ? '✅' : '❌';
-      lines.push(`${status} Worker \`${r.workerPublicKey || 'Unknown'}\`: ${r.message || 'No details'}`);
+      const workerAddr = String(r.workerPublicKey || 'Unknown');
+      const shortWorker = `${workerAddr.slice(0, 6)}...${workerAddr.slice(-4)}`;
+      const workerLink = r.workerPublicKey ? `[${shortWorker}](https://explorer.solana.com/address/${workerAddr}?${clusterParam})` : 'Unknown';
+      lines.push(`| ${status} | ${workerLink} | ${r.message || 'No details'} |`);
     });
     lines.push('');
   }
@@ -246,12 +149,14 @@ const formatToolResponse = (toolName: string, toolArgs: Record<string, unknown>,
   if (remainingKeys.length > 0) {
     lines.push('### 📊 Additional Details');
     lines.push('');
+    lines.push('| Field | Value |');
+    lines.push('|-------|-------|');
     remainingKeys.forEach(key => {
       const value = outputData[key];
       if (typeof value === 'object') {
-        lines.push(`- **${key}**: \`${JSON.stringify(value)}\``);
+        lines.push(`| **${key}** | \`${JSON.stringify(value)}\` |`);
       } else {
-        lines.push(`- **${key}**: ${value}`);
+        lines.push(`| **${key}** | ${value} |`);
       }
     });
     lines.push('');
@@ -384,159 +289,86 @@ const Dashboard = () => {
       };
       setMessages((prev) => [...prev, userMessage]);
 
-      const systemPrompt: OpenAIMessage = {
-        role: 'system',
-        content: `You are a helpful payroll management assistant on Solana blockchain. 
+      const systemPrompt = `You are a helpful payroll management assistant on Solana blockchain. 
 
-        Your available organizations:
-        ${organizations.map(org => `- ${org.orgName} (ID: ${org.id})`).join('\n')}
+Your available organizations:
+${organizations.map(org => `- ${org.orgName} (ID: ${org.id})`).join('\n')}
 
-        When users ask to:
-        - "Show organizations" or "list my orgs" → use fetch_user_organizations (no parameters needed)
-        - "Show details for [ORG_NAME]" → use fetch_organization_details with orgPda from the list above
-        - "Create organization [NAME]" → use create_organization with the name parameter
-        - "Add worker" → use add_worker with orgPda, workerPublicKey, and salaryInSol
-        - "Fund treasury" → use fund_treasury with orgPda and amountInSol
-        - "Process payroll" → use process_payroll with orgPda
-        - "Withdraw [AMOUNT] from [ORG_NAME]" → use withdraw_from_treasury with orgPda and amountInSol
+When users ask to:
+- "Show organizations" or "list my orgs" → use fetch_user_organizations (no parameters needed)
+- "Show details for [ORG_NAME]" → use fetch_organization_details with orgPda from the list above
+- "Create organization [NAME]" → use create_organization with the name parameter
+- "Add worker" → use add_worker with orgPda, workerPublicKey, and salaryInSol
+- "Fund treasury" → use fund_treasury with orgPda and amountInSol
+- "Process payroll" → use process_payroll with orgPda
+- "Withdraw [AMOUNT] from [ORG_NAME]" → use withdraw_from_treasury with orgPda and amountInSol
 
-        CRITICAL RULES:
-        1. When a user mentions an organization by name (like "TESLA"), look it up in the list above to get its orgPda/ID
-        2. Always extract ALL required parameters from user requests
-        3. For fetch_organization_details, you MUST provide the orgPda parameter - use the ID from the organizations list
-        4. If a parameter is missing, ask the user for it
-        5. Be conversational and friendly in your responses
-        6. After tools execute, provide a brief, natural summary - the tool results are already formatted nicely
+CRITICAL FORMATTING RULES:
+1. Use Markdown formatting for ALL responses
+2. Use ### for section headings (e.g., ### Results, ### Organization Details)
+3. Use tables for organized data (organizations list, workers list, payroll results)
+4. When displaying transaction signatures or addresses, use clickable Markdown links with Solana Explorer URLs
+5. Use bold (**text**) for important values and labels
+6. Use bullet points (• or -) for lists
+7. Keep responses concise but well-structured
+8. The tool results already include nicely formatted tables - include them in your response
 
-        Available tools: ${Object.keys(blockchainMcpTools).join(', ')}
+Available tools: ${Object.keys(blockchainMcpTools).join(', ')}
 
-        SOLANA EXPLORER LINKS:
-          When displaying transaction signatures or addresses, ALWAYS provide clickable Solana Explorer links based on the current cluster:
-          - Transaction format: https://explorer.solana.com/tx/[SIGNATURE]?cluster=[CLUSTER]
-          - Address format: https://explorer.solana.com/address/[ADDRESS]?cluster=[CLUSTER]
+SOLANA EXPLORER LINKS:
+  When displaying transaction signatures or addresses, ALWAYS provide clickable Solana Explorer links based on the current cluster:
+  - Transaction format: https://explorer.solana.com/tx/[SIGNATURE]?cluster=[CLUSTER]
+  - Address format: https://explorer.solana.com/address/[ADDRESS]?cluster=[CLUSTER]
 
-          IMPORTANT: Replace [CLUSTER] with the actual cluster value. Always include cluster parameter in links.
-          Supported clusters: custom, devnet, testnet, mainnet-beta
+  IMPORTANT: Replace [CLUSTER] with the actual cluster value. Always include cluster parameter in links.
+  Supported clusters: custom, devnet, testnet, mainnet-beta
 
-          Current cluster: ${getCluster(CLUSTER)}
-          Supported clusters: custom, devnet, testnet, mainnet-beta
+  Current cluster: ${getCluster(CLUSTER)}
 
-          Example in response:
-          "Transaction: [View on Explorer](https://explorer.solana.com/tx/abc123?cluster=custom)"
-          "Organization Address: [ADDRESS](https://explorer.solana.com/address/xyz789?cluster=custom)"
+  Example in response:
+  "Transaction: [View on Explorer](https://explorer.solana.com/tx/abc123?cluster=custom)"
+  "Organization Address: [ADDRESS](https://explorer.solana.com/address/xyz789?cluster=custom)"`;
 
-          IMPORTANT: Replace [CLUSTER] with the actual cluster value. Always include cluster parameter in links.
-          Supported clusters: custom, devnet, testnet, mainnet-beta
-        `,
-      };
+      const activeApiKey = getActiveApiKey();
+      if (!activeApiKey) {
+        throw new Error('API key not configured');
+      }
 
-      const conversationMessages: OpenAIMessage[] = [
-        systemPrompt,
-        ...messages.map((m) => ({
-          role: (m.role === 'bot' ? 'assistant' : 'user') as 'assistant' | 'user',
+      const provider = createGroq({
+        apiKey: activeApiKey,
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const tools = blockchainMcpTools as any;
+
+      const result = await generateText({
+        model: provider(DEFAULT_MODEL) as unknown as Parameters<typeof generateText>[0]['model'],
+        system: systemPrompt,
+        messages: messages.map((m) => ({
+          role: m.role === 'bot' ? 'assistant' : 'user',
           content: m.content,
         })),
-        {
-          role: 'user',
-          content: userInput,
-        }
-      ];
+        tools,
+        maxSteps: 10,
+      });
 
-      const tools = getOpenAITools();
-      let fullResponse = '';
-      let iterations = 0;
-      const maxIterations = 5;
-      const activeApiKey = getActiveApiKey();
+      let fullResponse = result.text;
 
-      while (iterations < maxIterations) {
-        iterations++;
-
-        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${activeApiKey}`,
-          },
-          body: JSON.stringify({
-            model: 'llama-3.1-70b-versatile',
-            messages: conversationMessages,
-            tools,
-            tool_choice: 'auto',
-          }),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          throw new Error(`AI API failed (${response.status}): ${errorData.error?.message || 'Unknown error'}`);
-        }
-
-        const data: OpenAIResponse = await response.json();
-        const choice = data.choices[0];
-
-        if (!choice || !choice.message) {
-          throw new Error('Invalid AI response structure');
-        }
-
-        const message = choice.message;
-
-        conversationMessages.push({
-          role: 'assistant',
-          content: message.content || '',
-          tool_calls: message.tool_calls,
-        });
-
-        if (message.content) {
-          fullResponse += message.content + '\n';
-        }
-
-        if (message.tool_calls && message.tool_calls.length > 0) {
-          for (const toolCall of message.tool_calls) {
-            const toolName = toolCall.function.name;
-            const toolArgs = JSON.parse(toolCall.function.arguments || '{}');
-
-            let toolOutput: unknown;
-            try {
-              const tool = blockchainMcpTools[toolName as keyof typeof blockchainMcpTools];
-              if (!tool || !tool.execute) {
-                throw new Error(`Unknown tool: ${toolName}`);
-              }
-
-              toolOutput = await tool.execute!(toolArgs, {
-                toolCallId: toolCall.id,
-                messages: []
-              });
-
-              if (toolOutput && typeof toolOutput === 'object' && Symbol.asyncIterator in toolOutput) {
-                let str = '';
-                for await (const chunk of toolOutput as AsyncIterable<unknown>) {
-                  if (typeof chunk === 'string') str += chunk;
-                }
-                toolOutput = str;
-              }
-            } catch (error) {
-              console.error(`Tool execution error for ${toolName}:`, error);
-              toolOutput = { error: (error as Error).message };
-            }
-
-            const formattedOutput = formatToolResponse(toolName, toolArgs, toolOutput);
-            fullResponse += formattedOutput;
-
-            const toolContent = typeof toolOutput === 'string'
-              ? toolOutput
-              : JSON.stringify(toolOutput, null, 2);
-
-            conversationMessages.push({
-              role: 'tool',
-              content: toolContent,
-              tool_call_id: toolCall.id,
-            });
+      if (result.toolResults && result.toolResults.length > 0) {
+        for (const toolResult of result.toolResults) {
+          const toolName = toolResult.toolName;
+          const toolArgs = toolResult.args as Record<string, unknown>;
+          const resultValue = toolResult.result;
+          
+          if (toolName && resultValue !== undefined) {
+            const formattedOutput = formatToolResponse(
+              toolName,
+              toolArgs,
+              resultValue,
+              getCluster(CLUSTER)
+            );
+            fullResponse += '\n' + formattedOutput;
           }
-
-          continue;
-        }
-
-        if (choice.finish_reason === 'stop') {
-          break;
         }
       }
 
