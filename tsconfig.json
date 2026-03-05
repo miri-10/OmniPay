@@ -31,8 +31,6 @@
     "**/*.mts"
   ],
   "exclude": [
-    "node_modules",
-    "anchor",           // ←←← ADD THIS LINE
-    "anchor/**"         // ←←← AND THIS (covers everything inside)
+    "node_modules"
   ]
 }

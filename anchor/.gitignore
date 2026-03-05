@@ -1,13 +1,11 @@
 .anchor
 .DS_Store
-target
+target/**
+!target/idl
+!target/idl/**
+!target/types
+!target/types/**
 **/*.rs.bk
 node_modules
 test-ledger
 .yarn
-
-# But keep the IDL and TypeScript types
-!anchor/target/idl/
-!anchor/target/types/
-!anchor/target/idl/*.json
-!anchor/target/types/*.ts
