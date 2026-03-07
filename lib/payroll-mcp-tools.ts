@@ -94,8 +94,8 @@ export const blockchainMcpTools = {
 
   fetch_user_organizations: tool({
     description: 'Fetch all organizations created by the connected wallet',
-    parameters: z.object({}),
-    execute: async () => {
+    parameters: z.object({}).optional(),
+    execute: async (_args) => {
       if (!walletContext.publicKey) {
         return { error: 'Wallet not connected' }
       }
@@ -124,8 +124,8 @@ export const blockchainMcpTools = {
 
   fetch_all_organizations: tool({
     description: 'Fetch all organizations on the blockchain',
-    parameters: z.object({}),
-    execute: async () => {
+    parameters: z.object({}).optional(),
+    execute: async (_args) => {
       try {
         const program = getProviderReadonly()
         const organizations = await fetchAllOrganizations(program)
@@ -618,8 +618,8 @@ export const blockchainMcpTools = {
 
   get_connected_wallet: tool({
     description: 'Get information about the currently connected wallet',
-    parameters: z.object({}),
-    execute: async () => {
+    parameters: z.object({}).optional(),
+    execute: async (_args) => {
       if (!walletContext.publicKey) {
         return {
           connected: false,

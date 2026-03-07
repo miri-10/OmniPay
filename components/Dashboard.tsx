@@ -344,7 +344,7 @@ SOLANA EXPLORER LINKS:
       const result = await generateText({
         model: provider(DEFAULT_MODEL) as unknown as Parameters<typeof generateText>[0]['model'],
         system: systemPrompt,
-        messages: messages.map((m) => ({
+        messages: [...messages, userMessage].map((m) => ({
           role: m.role === 'bot' ? 'assistant' : 'user',
           content: m.content,
         })),
