@@ -438,11 +438,11 @@ SOLANA EXPLORER LINKS:
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-black via-slate-900 to-black pt-16 sm:pt-20">
+    <div className="min-h-screen bg-[#0a0512] pt-16 sm:pt-20">
       <Header />
 
       {!publicKey && (
-        <div className="fixed top-16 sm:top-20 right-2 sm:right-4 z-40 p-3 sm:p-4 bg-slate-800 text-white rounded-lg text-xs sm:text-sm max-w-[90vw] sm:max-w-none">
+        <div className="fixed top-16 sm:top-20 right-2 sm:right-4 z-40 p-3 sm:p-4 bg-white/5 border border-white/10 text-white/70 rounded-lg text-xs sm:text-sm max-w-[90vw] sm:max-w-none backdrop-blur-sm">
           <p>Connect your wallet to enable transactions.</p>
         </div>
       )}
@@ -476,7 +476,7 @@ SOLANA EXPLORER LINKS:
           {!isPayrollOpen && (
             <button
               onClick={handleTogglePanel}
-              className="fixed right-4 sm:right-6 bottom-20 sm:bottom-auto sm:top-32 p-3 bg-linear-to-r from-[#DC1FFF] to-[#00FFA3] hover:from-[#00FFA3] hover:to-[#DC1FFF] text-black rounded-xl shadow-lg transition-all duration-200 z-40"
+              className="fixed right-4 sm:right-6 bottom-20 sm:bottom-auto sm:top-32 p-3 bg-white text-black rounded-xl shadow-lg transition-all duration-200 z-40"
               aria-label="Open organizations panel"
             >
               <Menu className="w-5 h-5 sm:w-6 sm:h-6" />

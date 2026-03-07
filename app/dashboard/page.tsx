@@ -20,7 +20,7 @@ export default function DashboardPage() {
     }, [connected, connecting, router]);
 
     if (isLoading || connecting) {
-        return <div className="min-h-screen flex items-center justify-center bg-black text-white">Loading...</div>;
+        return <div className="min-h-screen flex items-center justify-center bg-[#0a0512] text-white">Loading...</div>;
     }
 
     if (!connected) {

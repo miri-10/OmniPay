@@ -6,13 +6,13 @@ import Footer from '@/components/Footer';
 
 export default function AboutPage() {
     const colors = {
-        purple: "#DC1FFF",
-        green: "#00FFA3",
-        cyan: "#03E1FF",
+        purple: "#a855f7",
+        fuchsia: "#d946ef",
+        violet: "#8b5cf6",
     };
 
     return (
-        <div className="min-h-screen bg-black text-white">
+        <div className="min-h-screen bg-[#0a0512] text-white">
             <Header />
 
             {/* Hero Section */}
@@ -24,7 +24,7 @@ export default function AboutPage() {
                     </div>
 
                     <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                        <span style={{ background: `linear-gradient(to right, ${colors.purple}, ${colors.cyan}, ${colors.green})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                        <span style={{ background: `linear-gradient(to right, ${colors.purple}, ${colors.violet}, ${colors.fuchsia})`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
                             Revolutionizing Payroll
                         </span>
                         <br />
@@ -38,7 +38,7 @@ export default function AboutPage() {
             </section>
 
             {/* Who I Am */}
-            <section className="py-20 px-6 bg-linear-to-b from-black to-zinc-950">
+            <section className="py-20 px-6">
                 <div className="max-w-7xl mx-auto">
                     <h2 className="text-4xl font-bold text-center mb-16">Who We Are</h2>
                     <div className="grid md:grid-cols-2 gap-16 items-center">
@@ -52,7 +52,7 @@ export default function AboutPage() {
                             <ul className="space-y-4 pt-6">
                                 {["AI-Powered Natural Language Interface", "Secure Blockchain Transactions", "Next-Gen Web3 Solutions", "Innovation Through Education"].map((item, i) => (
                                     <li key={i} className="flex items-center gap-4">
-                                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: i % 2 === 0 ? colors.cyan : colors.green }} />
+                                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: i % 2 === 0 ? colors.fuchsia : colors.violet }} />
                                         <span className="text-gray-300">{item}</span>
                                     </li>
                                 ))}
@@ -62,8 +62,8 @@ export default function AboutPage() {
                         <div className="grid grid-cols-2 gap-6">
                             {[
                                 { value: "AI + Blockchain", label: "Core Focus", color: colors.purple },
-                                { value: "Student", label: "Led Project", color: colors.cyan },
-                                { value: "Natural", label: "Language First", color: colors.green },
+                                { value: "Student", label: "Led Project", color: colors.fuchsia },
+                                { value: "Natural", label: "Language First", color: colors.violet },
                                 { value: "On-Chain", label: "Security", color: colors.purple },
                             ].map((stat) => (
                                 <div key={stat.label} className="p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md text-center hover:border-white/20 transition-all">
@@ -76,12 +76,12 @@ export default function AboutPage() {
                 </div>
             </section>
 
-                {/* OmniPay Mission */}
+            {/* OmniPay Mission */}
             <section className="py-20 px-6">
                 <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
                     <div className="order-2 md:order-1 space-y-8">
                         <div className="flex items-center gap-4">
-                            <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${colors.purple}, ${colors.green})` }}>
+                            <div className="w-14 h-14 rounded-xl flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${colors.purple}, ${colors.fuchsia})` }}>
                                 <Target className="w-7 h-7 text-black" />
                             </div>
                             <h2 className="text-4xl font-bold">OmniPay Mission</h2>
@@ -93,9 +93,9 @@ export default function AboutPage() {
 
                         <div className="space-y-5">
                             {[
-                                { icon: Zap, text: "Instant payouts in seconds", color: colors.green },
+                                { icon: Zap, text: "Instant payouts in seconds", color: colors.fuchsia },
                                 { icon: Sparkles, text: "AI-driven natural language automation", color: colors.purple },
-                                { icon: Shield, text: "Blockchain-secured transparency", color: colors.cyan },
+                                { icon: Shield, text: "Blockchain-secured transparency", color: colors.violet },
                             ].map((item) => (
                                 <div key={item.text} className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-white/20 transition-all">
                                     <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: item.color + "20" }}>
@@ -108,7 +108,7 @@ export default function AboutPage() {
                     </div>
 
                     <div className="order-1 md:order-2 flex justify-center">
-                        <div className="p-10 rounded-3xl text-center text-black font-bold text-2xl" style={{ background: `linear-gradient(135deg, ${colors.purple}, ${colors.cyan}, ${colors.green})` }}>
+                        <div className="p-10 rounded-3xl text-center text-black font-bold text-2xl" style={{ background: `linear-gradient(135deg, ${colors.purple}, ${colors.violet}, ${colors.fuchsia})` }}>
                             🚀 OmniPay<br />Revolutionizing Payroll<br />on Solana
                         </div>
                     </div>
@@ -116,18 +116,18 @@ export default function AboutPage() {
             </section>
 
             {/* Offerings */}
-            <section className="py-20 px-6 bg-linear-to-b from-black to-zinc-950">
+            <section className="py-20 px-6">
                 <div className="max-w-7xl mx-auto">
                     <h2 className="text-4xl font-bold text-center mb-16">What We Offer</h2>
                     <div className="grid md:grid-cols-4 gap-8">
                         {[
                             { icon: BookOpen, title: "Education", color: colors.purple },
-                            { icon: Users, title: "Mentorship", color: colors.cyan },
-                            { icon: Code2, title: "Development", color: colors.green },
+                            { icon: Users, title: "Mentorship", color: colors.fuchsia },
+                            { icon: Code2, title: "Development", color: colors.violet },
                             { icon: TrendingUp, title: "Innovation", color: colors.purple },
                         ].map((item) => (
                             <div key={item.title} className="p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-white/20 transition-all group">
-                                <div className="w-14 h-14 rounded-xl mb-6 flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${item.color}, ${colors.green})` }}>
+                                <div className="w-14 h-14 rounded-xl mb-6 flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${item.color}, ${colors.fuchsia})` }}>
                                     <item.icon className="w-7 h-7 text-black" />
                                 </div>
                                 <h3 className="text-xl font-bold mb-3">{item.title}</h3>
@@ -150,11 +150,11 @@ export default function AboutPage() {
                     <div className="grid md:grid-cols-3 gap-8">
                         {[
                             { icon: Heart, title: "User-First", color: colors.purple },
-                            { icon: Shield, title: "Security & Transparency", color: colors.cyan },
-                            { icon: Award, title: "Continuous Innovation", color: colors.green },
+                            { icon: Shield, title: "Security & Transparency", color: colors.fuchsia },
+                            { icon: Award, title: "Continuous Innovation", color: colors.violet },
                         ].map((value) => (
                             <div key={value.title} className="p-10 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md hover:border-white/20 transition-all group text-center">
-                                <div className="w-20 h-20 rounded-2xl mx-auto mb-6 flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${value.color}, ${colors.cyan})` }}>
+                                <div className="w-20 h-20 rounded-2xl mx-auto mb-6 flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${value.color}, ${colors.fuchsia})` }}>
                                     <value.icon className="w-10 h-10 text-black" />
                                 </div>
                                 <h3 className="text-2xl font-bold mb-4" style={{ color: value.color }}>{value.title}</h3>
@@ -170,17 +170,17 @@ export default function AboutPage() {
             </section>
 
             {/* CTA */}
-            <section className="py-20 px-6 bg-linear-to-b from-black to-zinc-950">
+            <section className="py-20 px-6">
                 <div className="max-w-4xl mx-auto text-center">
                     <h2 className="text-4xl md:text-5xl font-bold mb-6">Ready to Join the AI & Blockchain Revolution?</h2>
                     <p className="text-xl text-gray-400 mb-10">
                         Experience the future of payroll management with OmniPay — where AI meets blockchain.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                        <button className="px-10 py-4 rounded-xl font-bold text-black transition-all hover:scale-105" style={{ background: `linear-gradient(to right, ${colors.purple}, ${colors.cyan}, ${colors.green})` }}>
+                        <button className="px-10 py-4 rounded-xl font-bold text-black transition-all hover:scale-105" style={{ background: `linear-gradient(to right, ${colors.purple}, ${colors.fuchsia}, ${colors.violet})` }}>
                             Get Started
                         </button>
-                        <button className="px-10 py-4 rounded-xl font-bold border-2 transition-all hover:scale-105" style={{ borderColor: colors.cyan, color: colors.cyan }}>
+                        <button className="px-10 py-4 rounded-xl font-bold border-2 transition-all hover:scale-105" style={{ borderColor: colors.fuchsia, color: colors.fuchsia }}>
                             Learn More
                         </button>
                     </div>

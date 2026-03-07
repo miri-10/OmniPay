@@ -25,7 +25,6 @@ import {
 } from '@/services/blockchain';
 import { Play, Zap, Shuffle, Trash2, Copy, Check } from 'lucide-react';
 import Header from '@/components/Header';
-import ParticleBackground from '@/components/ParticleBackground';
 import Footer from '@/components/Footer';
 interface TestData {
     orgName: string;
@@ -452,7 +451,7 @@ const Page: React.FC = () => {
 
     if (!isMounted) {
         return (
-            <div className="min-h-screen bg-linear-to-br from-black via-slate-900 to-black flex items-center justify-center">
+            <div className="min-h-screen bg-[#0a0512] flex items-center justify-center">
                 <div className="text-center">
                     <div className="inline-block p-4 bg-slate-800/50 rounded-lg border border-slate-700">
                         <p className="text-white">Loading...</p>
@@ -469,9 +468,9 @@ const Page: React.FC = () => {
         variant: 'write' | 'read' | 'secondary';
         label: string;
     }) => {
-        const variants = {
-            write: 'bg-linear-to-r from-[#DC1FFF] to-[#00FFA3] hover:from-[#00FFA3] hover:to-[#DC1FFF] text-black',
-            read: 'bg-linear-to-r from-[#03E1FF] to-[#00FFA3] hover:from-[#00FFA3] hover:to-[#03E1FF] text-black',
+    const variants = {
+            write: 'bg-gradient-to-r from-purple-500 to-fuchsia-500 hover:from-purple-400 hover:to-fuchsia-400 text-black',
+            read: 'bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-400 hover:to-purple-400 text-black',
             secondary: 'bg-slate-700/50 hover:bg-slate-700 text-white border border-slate-600'
         };
 
@@ -489,20 +488,19 @@ const Page: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-br from-black via-slate-900 to-black relative overflow-hidden pt-20">
+        <div className="min-h-screen bg-[#0a0512] relative overflow-hidden pt-20">
             <Header />
-            <ParticleBackground />
 
             {/* Gradient Orbs */}
-            <div className="absolute top-20 left-10 w-96 h-96 bg-[#DC1FFF]/10 rounded-full blur-[120px] animate-pulse" />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-[#00FFA3]/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute top-20 left-10 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] animate-pulse" />
+            <div className="absolute bottom-20 right-10 w-96 h-96 bg-fuchsia-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
 
             <div className="max-w-7xl mx-auto pb-20 px-6 pt-32">
                 {/* Header */}
-                <div className="relative z-10 bg-linear-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-[#DC1FFF]/20 hover:border-[#DC1FFF]/40 transition-all duration-300 shadow-2xl">
+                <div className="relative z-10 bg-slate-900/50 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 shadow-2xl">
                     <div className="flex items-center justify-between flex-wrap gap-4">
                         <div>
-                            <h1 className="text-4xl font-bold bg-linear-to-r from-[#DC1FFF] to-[#00FFA3] bg-clip-text text-transparent mb-2">
+                            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-fuchsia-400 bg-clip-text text-transparent mb-2">
                                 Payroll Test Suite
                             </h1>
                             <p className="text-slate-400">
@@ -516,18 +514,18 @@ const Page: React.FC = () => {
                     {/* Main Content */}
                     <div className="lg:col-span-2 space-y-6">
                         {/* Test Data Panel */}
-                        <div className="bg-linear-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm rounded-2xl p-6 border border-[#DC1FFF]/20 hover:border-[#DC1FFF]/40 transition-all duration-300 shadow-xl group">
-                            <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-[#DC1FFF]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="bg-slate-900/50 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 shadow-xl group">
+                            <div className="absolute inset-0 rounded-2xl bg-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             <div className="relative z-10">
                                 <div className="flex items-center justify-between mb-6">
                                     <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                                        <Zap className="w-6 h-6 text-[#00FFA3]" />
+                                        <Zap className="w-6 h-6 text-purple-400" />
                                         Test Configuration
                                     </h2>
                                     <button
                                         onClick={generateRandomData}
-                                        className="p-2 bg-slate-700/50 hover:bg-slate-700 rounded-lg transition-all text-slate-300 hover:text-[#00FFA3]"
+                                        className="p-2 bg-slate-700/50 hover:bg-slate-700 rounded-lg transition-all text-slate-300 hover:text-purple-400"
                                     >
                                         <Shuffle className="w-5 h-5" />
                                     </button>
@@ -553,12 +551,12 @@ const Page: React.FC = () => {
                                                     value={testData[field.key as keyof TestData]}
                                                     onChange={(e) => setTestData({ ...testData, [field.key]: e.target.value })}
                                                     placeholder={field.placeholder}
-                                                    className="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white placeholder-slate-500 focus:border-[#00FFA3] focus:bg-slate-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                                                    className="w-full bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white placeholder-slate-500 focus:border-purple-400 focus:bg-slate-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                                                 />
                                                 {(field.key === 'selectedOrgPda' || field.key === 'selectedWorkerPda') && testData[field.key as keyof TestData] && (
                                                     <button
                                                         onClick={() => copyToClipboard(testData[field.key as keyof TestData], field.key)}
-                                                        className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 text-slate-400 hover:text-[#00FFA3] transition-colors"
+                                                        className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 text-slate-400 hover:text-purple-400 transition-colors"
                                                     >
                                                         {copied === field.key ? (
                                                             <Check className="w-4 h-4" />
@@ -575,8 +573,8 @@ const Page: React.FC = () => {
                         </div>
 
                         {/* Write Functions */}
-                        <div className="bg-linear-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm rounded-2xl p-6 border border-[#00FFA3]/20 hover:border-[#00FFA3]/40 transition-all duration-300 shadow-xl group">
-                            <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-[#00FFA3]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="bg-slate-900/50 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 shadow-xl group">
+                            <div className="absolute inset-0 rounded-2xl bg-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             <div className="relative z-10">
                                 <h3 className="text-xl font-bold text-white mb-4">Write Operations (Requires Wallet)</h3>
@@ -591,8 +589,8 @@ const Page: React.FC = () => {
                         </div>
 
                         {/* Read Functions */}
-                        <div className="bg-linear-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm rounded-2xl p-6 border border-[#03E1FF]/20 hover:border-[#03E1FF]/40 transition-all duration-300 shadow-xl group">
-                            <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-[#03E1FF]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="bg-slate-900/50 backdrop-blur-sm rounded-2xl p-6 border border-violet-500/20 hover:border-violet-500/40 transition-all duration-300 shadow-xl group">
+                            <div className="absolute inset-0 rounded-2xl bg-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             <div className="relative z-10">
                                 <h3 className="text-xl font-bold text-white mb-4">Read Operations (Read-Only)</h3>
@@ -613,8 +611,8 @@ const Page: React.FC = () => {
 
                     {/* Logs Panel */}
                     <div className="lg:col-span-1">
-                        <div className="sticky top-24 bg-linear-to-br from-slate-900/50 to-slate-800/30 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-[#DC1FFF]/30 transition-all duration-300 shadow-xl group">
-                            <div className="absolute inset-0 rounded-2xl bg-linear-to-br from-slate-700/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="sticky top-24 bg-slate-900/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-purple-500/30 transition-all duration-300 shadow-xl group">
+                            <div className="absolute inset-0 rounded-2xl bg-slate-700/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             <div className="relative z-10">
                                 <div className="flex items-center justify-between mb-4">
@@ -639,7 +637,7 @@ const Page: React.FC = () => {
                                                 <div
                                                     key={log.id}
                                                     className={`py-1 px-2 rounded transition-all ${log.type === 'success'
-                                                        ? 'bg-[#00FFA3]/10 text-[#00FFA3] border-l-2 border-[#00FFA3]'
+                                                        ? 'bg-purple-500/10 text-purple-400 border-l-2 border-purple-400'
                                                         : log.type === 'error'
                                                             ? 'bg-red-500/10 text-red-400 border-l-2 border-red-500'
                                                             : 'bg-slate-700/20 text-slate-300 border-l-2 border-slate-600'
@@ -678,11 +676,11 @@ const Page: React.FC = () => {
                     border-radius: 10px;
                 }
                 .custom-scrollbar::-webkit-scrollbar-thumb {
-                    background: linear-gradient(180deg, #DC1FFF, #00FFA3);
+                    background: linear-gradient(180deg, #a855f7, #d946ef);
                     border-radius: 10px;
                 }
                 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                    background: linear-gradient(180deg, #00FFA3, #DC1FFF);
+                    background: linear-gradient(180deg, #d946ef, #a855f7);
                 }
             `}</style>
         </div>

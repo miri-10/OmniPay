@@ -19,19 +19,19 @@ const ParticleBackground = () => {
             size: number;
             speedX: number;
             speedY: number;
-            color: string;
+            opacity: number;
         }> = [];
 
-        const colors = ['#DC1FFF', '#00FFA3', '#03E1FF'];
+        const colors = ['#ffffff', '#cccccc', '#aaaaaa'];
 
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 25; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                size: Math.random() * 2 + 1,
-                speedX: (Math.random() - 0.5) * 0.5,
-                speedY: (Math.random() - 0.5) * 0.5,
-                color: colors[Math.floor(Math.random() * colors.length)]
+                size: Math.random() * 1.5 + 0.5,
+                speedX: (Math.random() - 0.5) * 0.2,
+                speedY: (Math.random() - 0.5) * 0.2,
+                opacity: Math.random() * 0.4 + 0.1
             });
         }
 
@@ -47,20 +47,21 @@ const ParticleBackground = () => {
 
                 ctx.beginPath();
                 ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                ctx.fillStyle = particle.color;
+                ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                ctx.globalAlpha = particle.opacity;
                 ctx.fill();
+                ctx.globalAlpha = 1;
 
-                // Draw connections
                 particles.slice(i + 1).forEach(particle2 => {
                     const dx = particle.x - particle2.x;
                     const dy = particle.y - particle2.y;
                     const distance = Math.sqrt(dx * dx + dy * dy);
 
-                    if (distance < 150) {
+                    if (distance < 100) {
                         ctx.beginPath();
-                        ctx.strokeStyle = particle.color;
-                        ctx.globalAlpha = 0.1 * (1 - distance / 150);
-                        ctx.lineWidth = 0.5;
+                        ctx.strokeStyle = '#ffffff';
+                        ctx.globalAlpha = 0.03 * (1 - distance / 100);
+                        ctx.lineWidth = 0.3;
                         ctx.moveTo(particle.x, particle.y);
                         ctx.lineTo(particle2.x, particle2.y);
                         ctx.stroke();
@@ -83,7 +84,7 @@ const ParticleBackground = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none opacity-30" />;
+    return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none opacity-20" />;
 };
 
 export default ParticleBackground;

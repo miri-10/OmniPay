@@ -1,7 +1,15 @@
 // app/layout.tsx
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
 import ClientProviders from '@/components/ClientProviders'
+import BackgroundWrapper from '@/components/BackgroundWrapper'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+})
 
 export const metadata: Metadata = {
   title: 'OmniPay',
@@ -14,9 +22,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <body>
-        <ClientProviders>{children}</ClientProviders>
+        <ClientProviders>
+          <BackgroundWrapper />
+          {children}
+        </ClientProviders>
       </body>
     </html>
   )
