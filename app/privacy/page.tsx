@@ -18,7 +18,7 @@ export default function PrivacyPage() {
                         OmniPay is built from the ground up with privacy as a non-negotiable feature — not an afterthought.
                     </p>
                     <p className="text-lg font-medium bg-linear-to-r from-[#DC1FFF] to-[#00FFA3] bg-clip-text text-transparent">
-                        We do not store your OpenAI API key. Ever.
+                        We do not store your Groq API key. Ever.
                     </p>
                     <p className="leading-relaxed">
                         Your key exists only in your browser’s memory while you use the app and is permanently deleted the moment you close or refresh the page.
@@ -29,7 +29,7 @@ export default function PrivacyPage() {
         },
         {
             icon: Key,
-            title: '2. OpenAI API Key Handling (Your Key = Your Control)',
+            title: '2. Groq API Key Handling (Your Key = Your Control)',
             color: 'text-[#00FFA3]',
             bgColor: 'from-[#00FFA3]/10 to-[#00FFA3]/5',
             content: (
@@ -38,7 +38,7 @@ export default function PrivacyPage() {
                         <EyeOff className="w-6 h-6 text-[#00FFA3] shrink-0 mt-1" />
                         <div>
                             <strong className="text-white">Never stored on our servers</strong>
-                            <p className="text-sm mt-1">Your OpenAI key is kept only in your browser’s runtime memory.</p>
+                            <p className="text-sm mt-1">Your Groq key is kept only in your browser’s runtime memory.</p>
                         </div>
                     </li>
                     <li className="flex items-start gap-4 p-4 bg-slate-800/40 rounded-xl border border-[#00FFA3]/20">
@@ -135,7 +135,7 @@ export default function PrivacyPage() {
                     <p>Want everything gone? Just:</p>
                     <ul className="list-disc list-inside space-y-2 ml-4">
                         <li>Clear your browser cache / localStorage</li>
-                        <li>Revoke your OpenAI key at platform.openai.com</li>
+                        <li>Revoke your Groq key at console.groq.com/keys</li>
                         <li>Forget this tab existed</li>
                     </ul>
                     <p className="mt-6 p-4 bg-slate-800/50 rounded-lg border border-[#00FFA3]/30">
@@ -179,7 +179,7 @@ export default function PrivacyPage() {
                         Privacy Policy
                     </h1>
                     <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-                        Your OpenAI key never touches our servers. Your wallet stays yours. Your data stays on-chain or in your browser — nowhere else.
+                        Your Groq key never touches our servers. Your wallet stays yours. Your data stays on-chain or in your browser — nowhere else.
                     </p>
                     <div className="flex items-center justify-center gap-2 mt-6 text-slate-400">
                         <Clock className="w-5 h-5" />

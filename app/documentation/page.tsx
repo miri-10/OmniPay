@@ -198,7 +198,7 @@ const Page: React.FC = () => {
 
                             # Configure your environment
                             NEXT_PUBLIC_SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
-                            NEXT_PUBLIC_OPENAI_API_KEY=your_openai_key
+                            NEXT_PUBLIC_GROQ_API_KEY=your_groq_key
                             NEXT_PUBLIC_PROGRAM_ID=your_program_id`}
                             />
                         </div>
@@ -214,13 +214,13 @@ const Page: React.FC = () => {
                             <div className="flex gap-4">
                                 <AlertCircle className="w-8 h-8 text-orange-400 shrink-0" />
                                 <div>
-                                    <h3 className="text-xl font-bold text-orange-300 mb-3">Required: You Need an OpenAI API Key</h3>
+<h3 className="text-xl font-bold text-orange-300 mb-3">Required: You Need a Groq API Key</h3>
                                     <p className="text-slate-200 text-sm leading-relaxed">
-                                        The AI assistant is powered by <strong>your own OpenAI API key</strong> — this keeps your usage private, secure, and gives you full control over costs.<br /><br />
+                                        The AI assistant is powered by <strong>your own Groq API key</strong> — this keeps your usage private, secure, and gives you full control over costs.<br /><br />
                                         <strong>How to get one (30 seconds):</strong><br />
-                                        1. Go to → <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener" className="text-[#00FFA3] underline hover:text-white">platform.openai.com/api-keys</a><br />
-                                        2. Click “Create new secret key”<br />
-                                        3. Copy the key (starts with sk-...)<br />
+                                        1. Go to → <a href="https://console.groq.com/keys" target="_blank" rel="noopener" className="text-[#00FFA3] underline hover:text-white">console.groq.com/keys</a><br />
+                                        2. Click "Create API key"<br />
+                                        3. Copy the key (starts with gsk_...)<br />
                                         4. Paste it in the chat when prompted<br /><br />
                                         Your key is stored <strong>only in your browser</strong> • Free tier gives thousands of commands
                                     </p>
@@ -341,9 +341,9 @@ const Page: React.FC = () => {
                         <div>
                             <h3 className="text-lg font-bold text-white mb-3">Using the Test Suite</h3>
                             <p className="text-slate-300 mb-4">
-                                Navigate to the <span className="text-[#00FFA3]">/test</span> page to access a comprehensive test interface with all blockchain functions.
+                                Navigate to the <span className="text-[#00FFA3]">/playground</span> page to access a comprehensive test interface with all blockchain functions.
                             </p>
-                            <CodeBlock code={`# Start the development server\nnpm run dev\n\n# Navigate to test page\nhttp://localhost:3000/test\n\n# Connect wallet and start testing`} />
+                            <CodeBlock code={`# Start the development server\nnpm run dev\n\n# Navigate to playground page\nhttp://localhost:3000/playground\n\n# Connect wallet and start testing`} />
                         </div>
                         {/* ... rest of testing content ... */}
                     </div>
@@ -377,7 +377,7 @@ const Page: React.FC = () => {
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-700">
-                                        <tr className="hover:bg-slate-800/50"><td className="px-6 py-4">Nothing happens when I type</td><td className="px-6 py-4">Did you set your OpenAI API key?</td></tr>
+                                        <tr className="hover:bg-slate-800/50"><td className="px-6 py-4">Nothing happens when I type</td><td className="px-6 py-4">Did you set your Groq API key?</td></tr>
                                         <tr className="hover:bg-slate-800/50"><td className="px-6 py-4">“Invalid orgPda” error</td><td className="px-6 py-4">Use the exact org name from your list</td></tr>
                                         <tr className="hover:bg-slate-800/50"><td className="px-6 py-4">Insufficient funds</td><td className="px-6 py-4">Fund the treasury first!</td></tr>
                                         <tr className="hover:bg-slate-800/50"><td className="px-6 py-4">AI keeps asking for missing info</td><td className="px-6 py-4">Include org name + amount + wallet address</td></tr>

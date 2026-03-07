@@ -14,7 +14,7 @@ Live demo → https://omni-pay.vercel.app (or your deployed URL)
 | Feature                        | Traditional Payroll | Most Crypto Payroll | OmniPay                              |
 |-------------------------------|---------------------|---------------------|--------------------------------------|
 | Natural language control      | ❌                  | ❌                  | ✅ Just type "Pay everyone at Tesla" |
-| OpenAI key stored on servers  | ✅ (most tools)     | ✅ (most tools)     | ❌ Never leaves your browser        |
+| Groq key stored on servers  | ✅ (most tools)     | ✅ (most tools)     | ❌ Never leaves your browser        |
 | On-chain & auditable          | ❌                  | ✅                  | ✅ Everything on Solana              |
 | Wallet stays non-custodial    | ❌                  | Sometimes           | ✅ You always sign transactions     |
 | Zero backend user database    | ❌                  | ❌                  | ✅ No accounts, no emails            |
@@ -24,7 +24,7 @@ Live demo → https://omni-pay.vercel.app (or your deployed URL)
 - **AI Chat Assistant** – Speak plain English:  
   `"Create organization Apple"` → `"Add worker 7yQ... to Apple salary 5 SOL"` → `"Process payroll for Apple"`
 - **Instant On-Chain Execution** – All actions are real Solana transactions signed by your wallet
-- **Privacy-First** – Your OpenAI API key is stored only in browser memory and wiped on page leave
+- **Privacy-First** – Your Groq API key is stored only in browser memory and wiped on page leave
 - **No Login, No KYC** – Connect any Solana wallet (Phantom, Solflare, Backpack, etc.)
 - **Batch Payments** – Pay 1 or 1,000 workers in a single transaction
 - **Treasury Management** – Fund, withdraw, and monitor organization balances in real-time
@@ -32,8 +32,8 @@ Live demo → https://omni-pay.vercel.app (or your deployed URL)
 ## Quick Start (30 seconds)
 
 1. **Connect your Solana wallet** (top-right button)
-2. **Paste your OpenAI API key** when prompted  
-   → Get one free at https://platform.openai.com/api-keys  
+2. **Paste your Groq API key** when prompted  
+   → Get one free at https://console.groq.com/keys  
    → Your key is **never stored** – only lives in your browser
 3. Start typing in the chat:
 
@@ -61,7 +61,7 @@ That's it. The AI remembers context and executes everything on-chain.
 
 - **Frontend** – Next.js 16 (App Router) + TypeScript + Tailwind
 - **Blockchain** – Solana + Anchor (Rust) smart contracts
-- **AI Layer** – Bring-your-own OpenAI key (client-side only)
+- **AI Layer** – Bring-your-own Groq key (client-side only)
 - **Wallet** – Wallet Adapter + Phantom/Solflare support
 - **Deployment** – Vercel (frontend) + Solana Mainnet/Devnet
 
@@ -72,9 +72,12 @@ That's it. The AI remembers context and executes everything on-chain.
 │   └── programs/
 │       └── payroll_program/ # create_org, add_worker, fund, payroll, withdraw
 ├── app/                     # Next.js 16 pages
+│   ├── about/page.tsx       # About page
 │   ├── dashboard/page.tsx   # Main AI chat + org panel
-│   ├── privacy/page.tsx     # Privacy-first policy
-│   └── test/page.tsx        # Manual transaction tester
+│   ├── documentation/page.tsx # Documentation
+│   ├── features/page.tsx    # Features showcase
+│   ├── playground/page.tsx # Manual transaction tester
+│   └── privacy/page.tsx    # Privacy-first policy
 ├── components/              # ChatPanel, OrganizationsPanel, Header, etc.
 ├── lib/                     # MCP tools (AI → on-chain function calls)
 ├── services/blockchain.ts   # Wallet + program interactions
@@ -109,7 +112,7 @@ NEXT_PUBLIC_SOLANA_RPC_URL=localhost
 # or devnet for testing
 ```
 
-No OpenAI key in .env – users paste it live in the browser.
+No Groq key in .env – users paste it live in the browser.
 
 ## Deploy Your Own
 
@@ -124,7 +127,7 @@ anchor deploy --provider.cluster devnet
 
 ## Privacy & Security
 
-- Your OpenAI key **never touches any server**
+- Your Groq key **never touches any server**
 - Chat history lives only in your browser (localStorage)
 - All transactions are signed by your wallet – non-custodial
 - On-chain data is public (Solana is transparent by design)
