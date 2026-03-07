@@ -5,7 +5,7 @@ No custodians. No middlemen. No servers holding your keys.
 
 OmniPay lets anyone create organizations, add workers, fund treasuries, and process payroll — all with natural-language commands powered by an AI assistant that runs **100% in your browser**.
 
-Live demo → https://omni-pay.vercel.app (or your deployed URL)
+Live demo → https://omnipay-1.vercel.app (or your deployed URL)
 
 ![OmniPay Dashboard](./screenshots/dapp_pay_compressed.png)
 
