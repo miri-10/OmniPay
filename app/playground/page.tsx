@@ -451,7 +451,7 @@ const Page: React.FC = () => {
 
     if (!isMounted) {
         return (
-            <div className="min-h-screen bg-[#0a0512] flex items-center justify-center">
+            <div className="min-h-screen bg-transparent flex items-center justify-center">
                 <div className="text-center">
                     <div className="inline-block p-4 bg-slate-800/50 rounded-lg border border-slate-700">
                         <p className="text-white">Loading...</p>
@@ -488,14 +488,14 @@ const Page: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#0a0512] relative overflow-hidden pt-20">
+        <div className="min-h-screen bg-transparent relative overflow-hidden">
             <Header />
 
             {/* Gradient Orbs */}
             <div className="absolute top-20 left-10 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] animate-pulse" />
             <div className="absolute bottom-20 right-10 w-96 h-96 bg-fuchsia-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
 
-            <div className="max-w-7xl mx-auto pb-20 px-6 pt-32">
+            <div className="max-w-7xl mx-auto pb-20 px-6 pt-16">
                 {/* Header */}
                 <div className="relative z-10 bg-slate-900/50 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 shadow-2xl">
                     <div className="flex items-center justify-between flex-wrap gap-4">

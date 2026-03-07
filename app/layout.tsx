@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import ClientProviders from '@/components/ClientProviders'
 import BackgroundWrapper from '@/components/BackgroundWrapper'
+import TopBanner from '@/components/TopBanner'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -26,7 +27,10 @@ export default function RootLayout({
       <body>
         <ClientProviders>
           <BackgroundWrapper />
-          {children}
+          <TopBanner />
+          <div className="page-background">
+            {children}
+          </div>
         </ClientProviders>
       </body>
     </html>

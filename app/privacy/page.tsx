@@ -157,7 +157,7 @@ export default function PrivacyPage() {
     ];
 
     return (
-        <div className="min-h-screen bg-[#0a0512] relative overflow-hidden">
+        <div className="min-h-screen bg-transparent relative overflow-hidden">
             <Header />
 
             {/* Gradient Orbs */}
@@ -165,7 +165,7 @@ export default function PrivacyPage() {
             <div className="absolute bottom-40 right-10 w-96 h-96 bg-fuchsia-500/20 rounded-full blur-[120px] animate-pulse delay-1000" />
 
             {/* Hero */}
-            <section className="relative z-10 pt-32 pb-20 px-6">
+            <section className="relative z-10 pt-16 pb-20 px-6">
                 <div className="max-w-4xl mx-auto text-center">
                     <div className="flex justify-center mb-8">
                         <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-fuchsia-500 rounded-2xl flex items-center justify-center shadow-2xl shadow-purple-500/50">

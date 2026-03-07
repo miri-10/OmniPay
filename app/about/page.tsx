@@ -12,11 +12,11 @@ export default function AboutPage() {
     };
 
     return (
-        <div className="min-h-screen bg-[#0a0512] text-white">
+        <div className="min-h-screen bg-transparent text-white">
             <Header />
 
             {/* Hero Section */}
-            <section className="pt-32 pb-20 px-6">
+            <section className="pt-16 pb-20 px-6">
                 <div className="max-w-7xl mx-auto text-center">
                     <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md mb-8">
                         <Sparkles className="w-4 h-4" style={{ color: colors.purple }} />

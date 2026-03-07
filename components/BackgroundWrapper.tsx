@@ -2,11 +2,11 @@
 
 import dynamic from 'next/dynamic';
 
-const ThreeDParticleBackground = dynamic(
-  () => import('@/components/ThreeDParticleBackground'),
+const FloatingObjects3D = dynamic(
+  () => import('@/components/FloatingObjects3D'),
   { ssr: false }
 );
 
 export default function BackgroundWrapper() {
-  return <ThreeDParticleBackground />;
+  return <FloatingObjects3D />;
 }

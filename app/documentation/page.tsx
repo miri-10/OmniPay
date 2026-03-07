@@ -131,10 +131,10 @@ const Section: React.FC<SectionProps> = ({ id, title, icon: Icon, children }) =>
 
 const Page: React.FC = () => {
     return (
-        <div className="min-h-screen bg-[#0a0512]">
+        <div className="min-h-screen bg-transparent">
             <Header />
 
-            <main className="max-w-7xl mx-auto pb-20 px-6 pt-32">
+            <main className="max-w-7xl mx-auto pb-20 px-6 pt-16">
 
                 {/* Introduction Section */}
                 <Section id="intro" title="Getting Started" icon={BookOpen}>
