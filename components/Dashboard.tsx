@@ -447,8 +447,8 @@ SOLANA EXPLORER LINKS:
         </div>
       )}
 
-      <main className="max-w-[95vw] lg:max-w-[75vw] mx-auto px-3 sm:px-6 pb-6 mt-4 sm:mt-8">
-        <div className="max-w-full min-h-[calc(100vh-35rem)] flex flex-col lg:flex-row gap-4 sm:gap-6">
+      <main className="w-full max-w-[95vw] mx-auto px-3 sm:px-6 pb-6 mt-4 sm:mt-8">
+        <div className="w-full min-h-[calc(100vh-12rem)] flex flex-col lg:flex-row gap-4 sm:gap-6">
           <ChatPanel
             messages={messages}
             input={input}

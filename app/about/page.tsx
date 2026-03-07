@@ -109,7 +109,7 @@ export default function AboutPage() {
 
                     <div className="order-1 md:order-2 flex justify-center">
                         <div className="p-10 rounded-3xl text-center text-black font-bold text-2xl" style={{ background: `linear-gradient(135deg, ${colors.purple}, ${colors.violet}, ${colors.fuchsia})` }}>
-                            🚀 OmniPay<br />Revolutionizing Payroll<br />on Solana
+                             OmniPay<br />Revolutionizing Payroll<br />on Solana
                         </div>
                     </div>
                 </div>

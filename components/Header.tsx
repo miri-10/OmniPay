@@ -1,12 +1,35 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const WalletMultiButton = dynamic(
+  () =>
+    import("@solana/wallet-adapter-react-ui").then(
+      (mod) => mod.WalletMultiButton
+    ),
+  { ssr: false }
+);
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { connected, publicKey, disconnect } = useWallet();
+  const pathname = usePathname();
+  
+  const isDashboard = pathname === '/dashboard';
+
+  const handleDisconnect = async () => {
+    if (disconnect) await disconnect();
+  };
+
+  const address = publicKey
+    ? `${publicKey.toBase58().slice(0, 4)}...${publicKey.toBase58().slice(-4)}`
+    : "";
 
   const navLinks = [
     { label: "Documentation", href: "/documentation" },
@@ -40,6 +63,21 @@ const Header = () => {
               ))}
             </nav>
 
+            {isDashboard && (
+              <div className="hidden md:flex items-center gap-4">
+                {connected ? (
+                  <button onClick={handleDisconnect}>
+                    <div className="flex items-center gap-2 px-3 py-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 rounded-lg transition-all">
+                      <X className="w-3.5 h-3.5 text-purple-400" />
+                      <span className="text-white font-mono text-xs">{address}</span>
+                    </div>
+                  </button>
+                ) : (
+                  <WalletMultiButton />
+                )}
+              </div>
+            )}
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden"
@@ -57,6 +95,20 @@ const Header = () => {
                   {link.label}
                 </Link>
               ))}
+              {isDashboard && (
+                <div className="pt-2 border-t border-white/10">
+                  {connected ? (
+                    <button onClick={handleDisconnect} className="w-full">
+                      <div className="flex items-center gap-2 px-3 py-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 rounded-lg transition-all">
+                        <X className="w-3.5 h-3.5 text-purple-400" />
+                        <span className="text-white font-mono text-xs">{address}</span>
+                      </div>
+                    </button>
+                  ) : (
+                    <WalletMultiButton />
+                  )}
+                </div>
+              )}
             </div>
           </div>
         )}

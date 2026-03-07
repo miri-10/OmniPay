@@ -29,7 +29,7 @@ const OrganizationsPanel: React.FC<OrganizationsPanelProps> = ({
                 onClick={onToggle}
             />
 
-            <div className="lg:relative lg:w-1/3 min-h-[50vh] max-h-[85vh] lg:max-h-[80vh] z-40 flex flex-col bg-black/40 border-t lg:border border-red-500/10 rounded-t-2xl lg:rounded-2xl backdrop-blur-md">
+            <div className="lg:relative lg:w-1/3 min-h-[70vh] max-h-[85vh] z-40 flex flex-col bg-black/40 border-t lg:border border-red-500/10 rounded-t-2xl lg:rounded-2xl backdrop-blur-md">
                 <div className="p-4 sm:p-5 border-b border-red-500/10 flex items-center justify-between shrink-0 bg-black/20">
                     <div className="flex items-center gap-3">
                         <div className="w-9 h-9 bg-gradient-to-br from-red-500/20 to-orange-500/20 border border-red-500/20 rounded-lg flex items-center justify-center">

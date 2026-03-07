@@ -148,7 +148,7 @@ const ChatPanel: React.FC<ChatPanelProps> = ({
     };
 
     return (
-        <div className={`${isPayrollOpen ? 'hidden lg:flex lg:w-2/3' : 'w-full'} min-h-[50vh] max-h-[80vh] transition-all duration-300 flex flex-col bg-black/40 border border-red-500/10 rounded-2xl backdrop-blur-md overflow-hidden`}>
+        <div className={`${isPayrollOpen ? 'hidden lg:flex lg:w-2/3' : 'w-full'} min-h-[70vh] max-h-[85vh] transition-all duration-300 flex flex-col bg-black/40 border border-red-500/10 rounded-2xl backdrop-blur-md overflow-hidden`}>
             <div className="p-4 sm:p-5 border-b border-red-500/10 shrink-0 bg-black/20">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
