@@ -13,7 +13,7 @@ payroll_program = "5igZugtxpgEM2J5DA5cyUdWW857FY7TC6hKeA8bLHM88"
 [registry]
 url = "https://api.apr.dev"
 
-[provider]
+[provider] 
 cluster = "devnet"
 # cluster = "Localnet"
 wallet = "~/.config/solana/id.json"
